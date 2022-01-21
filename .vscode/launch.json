@@ -9,7 +9,7 @@
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/src/wordle-solver.exe",
-            "args": [],
+            "args": ["../words_alpha.txt", "5"],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
