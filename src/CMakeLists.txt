@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.0.0)
 include(CTest)
 enable_testing()
 
-add_executable(wordle-solver WordleSolver.cc WordList.cc)
+add_executable(wordle-solver Main.cc WordleSolver.cc WordList.cc)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
