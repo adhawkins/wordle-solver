@@ -4,23 +4,28 @@
 #include <iostream>
 #include <sstream>
 
-CWordleSolver::CWordleSolver(const std::string &WordListFile, int Length)
+CWordleSolver::CWordleSolver(const std::string &WordListFile, int Length, const std::string& InitialGuess)
 : m_WordListFile(WordListFile),
-	m_Length(Length)
+	m_Length(Length),
+	m_InitialGuess(InitialGuess)
 {
 }
 
 void CWordleSolver::Solve() const
 {
 	std::vector<std::string> Guesses;
-	std::string Guess;
-	int GuessNum=1;
+	std::string Guess(m_InitialGuess);
+	int GuessNum = 1;
 
 	CWordList Words(m_WordListFile, m_Length);
 
 	while (true)
 	{
-		Guess = Words.GetGuess(Guesses);
+		if (1 != GuessNum || m_InitialGuess.empty())
+		{
+			Guess = Words.GetGuess(Guesses);
+		}
+
 		if (Guess.empty())
 		{
 			std::cout << "Run out of guesses - sorry" << std::endl;
@@ -28,22 +33,28 @@ void CWordleSolver::Solve() const
 		}
 
 		std::string strMatches;
-		while (strMatches.length()!=m_Length)
+		while (strMatches.length() != m_Length)
 		{
 			std::cout << "Guess is '" << Guess << "' - Enter matches: ";
 			std::getline(std::cin, strMatches);
 		}
 
-		if ("zzzzz" != strMatches)
+		if (strMatches.end() != std::find_if_not(strMatches.begin(),
+																						 strMatches.end(),
+																						 [](unsigned char Char)
+																						 {
+																							 return Char == 'z';
+																						 }))
 		{
-			auto Matches=ParseMatches(strMatches);
+			auto Matches = ParseMatches(strMatches);
 			std::cout << ColourMatches(Guess, Matches) << std::endl;
 
-			if (Matches.end()==std::find_if_not(Matches.begin(),
-																					Matches.end(),
-																					[](CWordList::tMatchType MatchType) {
-																						return MatchType==CWordList::tMatchType::eRightLocation;
-																					}))
+			if (Matches.end() == std::find_if_not(Matches.begin(),
+																						Matches.end(),
+																						[](CWordList::tMatchType MatchType)
+																						{
+																							return MatchType == CWordList::tMatchType::eRightLocation;
+																						}))
 			{
 				std::cout << "Got it in " << GuessNum << "!" << std::endl;
 				break;
@@ -136,14 +147,21 @@ CWordList::tMatchTypeVector CWordleSolver::ParseMatches(const std::string strMat
 
 int main(int argc, const char *argv[])
 {
-	if (argc==3)
+	if (argc>=3)
 	{
-		CWordleSolver Solver(argv[1], atoi(argv[2]));
+		std::string InitialGuess;
+
+		if (argc==4)
+		{
+			InitialGuess=argv[3];
+		}
+
+		CWordleSolver Solver(argv[1], atoi(argv[2]), InitialGuess);
 		Solver.Solve();
 	}
 	else
 	{
-		std::cout << "Usage: " << argv[0] << "wordlistfile wordlength" << std::endl;
+		std::cout << "Usage: " << argv[0] << "wordlistfile wordlength [initial guess word]" << std::endl;
 	}
 
 	return 0;

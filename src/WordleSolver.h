@@ -7,7 +7,7 @@
 class CWordleSolver
 {
 public:
-	CWordleSolver(const std::string &WordListFile, int Length);
+	CWordleSolver(const std::string &WordListFile, int Length, const std::string& InitialGuess="");
 
 	void Solve() const;
 
@@ -18,6 +18,7 @@ private:
 
 	std::string m_WordListFile;
 	int m_Length;
+	std::string m_InitialGuess;
 
 	static CWordList::tMatchTypeVector CalculateMatches(const std::string &Correct, const std::string &Guess);
 	static std::string ColourMatches(const std::string &Guess, const CWordList::tMatchTypeVector &Matches);
