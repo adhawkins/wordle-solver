@@ -3,17 +3,20 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <unordered_set>
 
 #include <assert.h>
 
 CWordList::CWordList(const std::string &FileName, int Length)
 {
 	LoadWords(FileName, Length);
+	SortWords();
 }
 
 CWordList::CWordList(const std::vector<std::string> &Words)
 : m_Words(Words)
 {
+	SortWords();
 }
 
 void CWordList::LoadWords(const std::string &FileName, int Length)
@@ -206,4 +209,15 @@ std::string CWordList::GetGuess(const std::vector<std::string> &Guesses) const
 	}
 
 	return "";
+}
+
+std::string::size_type CWordList::UniqueLetters(const std::string &String)
+{
+	return std::unordered_set<char>(std::begin(String), std::end(String)).size();
+}
+
+void CWordList::SortWords()
+{
+	std::sort(m_Words.begin(), m_Words.end(), [](const std::string &a, const std::string &b)
+						{ return UniqueLetters(a) > UniqueLetters(b); });
 }

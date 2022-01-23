@@ -25,6 +25,9 @@ public:
 
 private:
 	void LoadWords(const std::string &FileName, int Length);
+	void SortWords();
+
+	static std::string::size_type UniqueLetters(const std::string &String);
 
 	std::vector<std::string> m_Words;
 };
