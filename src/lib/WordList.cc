@@ -152,6 +152,9 @@ void CWordList::Filter(const std::string &Guess, const tMatchTypeVector &Matches
 			case tMatchType::eWrongLocation:
 				ValidLetters += Guess[count];
 				break;
+
+			case tMatchType::eNotPresent:
+				break;
 		}
 	}
 
@@ -166,6 +169,10 @@ void CWordList::Filter(const std::string &Guess, const tMatchTypeVector &Matches
 				{
 					InvalidLetters += Guess[count];
 				}
+
+			case tMatchType::eRightLocation:
+			case tMatchType::eWrongLocation:
+				break;
 		}
 	}
 
