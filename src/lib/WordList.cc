@@ -195,7 +195,7 @@ std::string CWordList::GetGuess(const std::vector<std::string> &Guesses) const
 					return "beautiful";
 
 				default:
-					assert(0);
+					break;
 			}
 		}
 
