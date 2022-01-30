@@ -32,7 +32,7 @@ std::string CWordleSolver::InvalidWord()
 
 std::string CWordleSolver::Result(const CWordList::tMatchTypeVector& Matches)
 {
-	m_WordList = m_WordList.Filter(m_Guesses.back(), Matches);
+	m_WordList.Filter(m_Guesses.back(), Matches);
 	m_GuessNum++;
 	m_Guesses.push_back(m_WordList.GetGuess(m_Guesses));
 	return m_Guesses.back();

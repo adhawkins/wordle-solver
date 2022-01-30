@@ -140,7 +140,7 @@ private:
 	std::string m_InvalidLetters;
 };
 
-CWordList CWordList::Filter(const std::string &Guess, const tMatchTypeVector &Matches) const
+void CWordList::Filter(const std::string &Guess, const tMatchTypeVector &Matches)
 {
 	std::string ValidLetters;
 
@@ -171,13 +171,12 @@ CWordList CWordList::Filter(const std::string &Guess, const tMatchTypeVector &Ma
 
 	CStringMatch StringMatch(Guess, InvalidLetters, Matches);
 
-	std::vector<std::string> Ret(m_Words);
-	auto LastElement = std::remove_if(Ret.begin(), Ret.end(), StringMatch);
-	Ret.erase(LastElement, Ret.end());
+	auto InitialSize = m_Words.size();
 
-	//std::cout << "Gone from " << m_Words.size() << " to " << Ret.size() << std::endl;
+	auto LastElement = std::remove_if(m_Words.begin(), m_Words.end(), StringMatch);
+	m_Words.erase(LastElement, m_Words.end());
 
-	return CWordList(Ret);
+	//std::cout << "Gone from " << InitialSize << " to " << m_Words.size() << std::endl;
 }
 
 std::string CWordList::GetGuess(const std::vector<std::string> &Guesses) const

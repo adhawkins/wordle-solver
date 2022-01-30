@@ -20,7 +20,7 @@ public:
 	CWordList(const std::string &FileName, int Length);
 	CWordList(const std::vector<std::string> &Words);
 
-	CWordList Filter(const std::string &Guess, const tMatchTypeVector &Matches) const;
+	void Filter(const std::string &Guess, const tMatchTypeVector &Matches);
 	std::string GetGuess(const std::vector<std::string> &Guesses) const;
 
 private:
