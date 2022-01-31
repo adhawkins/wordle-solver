@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.0.0)
 
 add_library(wordle-solver WordleSolver.cc WordList.cc)
 
+install(DIRECTORY word-lists DESTINATION .)
+
 if(EMSCRIPTEN)
 	file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/null.cc "")
 
