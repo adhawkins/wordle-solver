@@ -37,30 +37,6 @@ std::string ColourMatches(const std::string &Guess, const CWordList::tMatchTypeV
 	return ColouredMatches.str();
 }
 
-CWordList::tMatchTypeVector ParseMatches(const std::string& strMatches)
-{
-	CWordList::tMatchTypeVector Matches;
-
-	for (const auto& Char: strMatches)
-	{
-		switch (Char)
-		{
-			case '0':
-				Matches.push_back(CWordList::tMatchType::eNotPresent);
-				break;
-
-			case '1':
-				Matches.push_back(CWordList::tMatchType::eWrongLocation);
-				break;
-
-			case '2':
-				Matches.push_back(CWordList::tMatchType::eRightLocation);
-				break;
-		}
-	}
-
-	return Matches;
-}
 int main(int argc, const char *argv[])
 {
 	if (argc>=3)
@@ -98,7 +74,7 @@ int main(int argc, const char *argv[])
 																								return Char == 'z';
 																							}))
 			{
-				auto Matches = ParseMatches(strMatches);
+				auto Matches = CWordleSolver::ParseMatches(strMatches);
 				std::cout << ColourMatches(Guess, Matches) << std::endl;
 
 				if (Matches.end() == std::find_if_not(Matches.begin(),

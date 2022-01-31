@@ -144,10 +144,12 @@ void CWordList::Filter(const std::string &Guess, const tMatchTypeVector &Matches
 {
 	std::string ValidLetters;
 
-	for (std::string::size_type count = 0; count < Guess.length(); count++)
-	{
-		switch (Matches[count])
+	for (const auto &Match : Matches)
+
+		for (std::string::size_type count = 0; count < Guess.length(); count++)
 		{
+			switch (Matches[count])
+			{
 			case tMatchType::eRightLocation:
 			case tMatchType::eWrongLocation:
 				ValidLetters += Guess[count];
@@ -155,8 +157,8 @@ void CWordList::Filter(const std::string &Guess, const tMatchTypeVector &Matches
 
 			case tMatchType::eNotPresent:
 				break;
+			}
 		}
-	}
 
 	std::string InvalidLetters;
 
@@ -227,3 +229,28 @@ void CWordList::SortWords()
 	std::sort(m_Words.begin(), m_Words.end(), [](const std::string &a, const std::string &b)
 						{ return UniqueLetters(a) > UniqueLetters(b); });
 }
+
+#ifdef EMSCRIPTEN
+
+#include <emscripten/bind.h>
+
+using namespace emscripten;
+
+EMSCRIPTEN_BINDINGS(wordlist)
+{
+	class_<CWordList>("CWordList")
+			.constructor<const std::string &, int>()
+			.constructor<const std::vector<std::string> &>()
+			.function("Filter", &CWordList::Filter)
+			.function("GetGuess", &CWordList::GetGuess);
+
+	register_vector<std::string>("StringVector");
+	register_vector<CWordList::tMatchType>("MatchTypeVector");
+
+	enum_<CWordList::tMatchType>("tMatchType")
+			.value("eNotPresent", CWordList::tMatchType::eNotPresent)
+			.value("eWrongLocation", CWordList::tMatchType::eWrongLocation)
+			.value("eRightLocation", CWordList::tMatchType::eRightLocation);
+}
+
+#endif

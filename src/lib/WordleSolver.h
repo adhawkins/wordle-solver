@@ -14,6 +14,8 @@ public:
 	std::string Result(const CWordList::tMatchTypeVector &Matches);
 	int GuessNum() const { return m_GuessNum; }
 
+	static CWordList::tMatchTypeVector ParseMatches(const std::string &strMatches);
+
 private:
 	std::string m_InitialGuess;
 	CWordList m_WordList;
@@ -21,6 +23,4 @@ private:
 	int m_GuessNum{1};
 
 	static CWordList::tMatchTypeVector CalculateMatches(const std::string &Correct, const std::string &Guess);
-	static std::string ColourMatches(const std::string &Guess, const CWordList::tMatchTypeVector &Matches);
-	static CWordList::tMatchTypeVector ParseMatches(const std::string strMatches);
 };

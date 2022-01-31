@@ -64,3 +64,47 @@ CWordList::tMatchTypeVector CWordleSolver::CalculateMatches(const std::string &C
 
 	return Matches;
 }
+
+CWordList::tMatchTypeVector CWordleSolver::ParseMatches(const std::string &strMatches)
+{
+	CWordList::tMatchTypeVector Matches;
+
+	for (const auto &Char : strMatches)
+	{
+		switch (Char)
+		{
+		case '0':
+			Matches.push_back(CWordList::tMatchType::eNotPresent);
+			break;
+
+		case '1':
+			Matches.push_back(CWordList::tMatchType::eWrongLocation);
+			break;
+
+		case '2':
+			Matches.push_back(CWordList::tMatchType::eRightLocation);
+			break;
+		}
+	}
+
+	return Matches;
+}
+
+#ifdef EMSCRIPTEN
+
+#include <emscripten/bind.h>
+
+using namespace emscripten;
+
+EMSCRIPTEN_BINDINGS(wordlesolver)
+{
+	class_<CWordleSolver>("CWordleSolver")
+			.constructor<const std::string &, int, const std::string &>()
+			.function("InitialGuess", &CWordleSolver::InitialGuess)
+			.function("InvalidWord", &CWordleSolver::InvalidWord)
+			.function("Result", &CWordleSolver::Result)
+			.function("GuessNum", &CWordleSolver::GuessNum)
+			.class_function("ParseMatches", &CWordleSolver::ParseMatches);
+}
+
+#endif
