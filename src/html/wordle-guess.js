@@ -4,6 +4,7 @@ class WordleGuess extends HTMLElement {
 			'length',
 			'guess',
 			'marked',
+			'initial-mark'
 		];
 	}
 
@@ -33,6 +34,7 @@ class WordleGuess extends HTMLElement {
 
 	updateContent(length, guess) {
 		this.wrapper.innerText = "";
+
 		for (let count = 0; count < length; count++) {
 			const tile = document.createElement('wordle-letter');
 			let letter = '?';
@@ -41,6 +43,7 @@ class WordleGuess extends HTMLElement {
 				letter = guess[count];
 			}
 
+			tile.setAttribute('offset', count);
 			tile.setAttribute('letter', letter);
 			this.wrapper.append(tile);
 			tile.addEventListener("LetterStatusChanged", (event) => {
@@ -128,16 +131,48 @@ class WordleGuess extends HTMLElement {
 		}
 	}
 
+	setLetterStatus(offset, status) {
+		const letter = this.wrapper.querySelectorAll(`wordle-letter[offset='${offset}']`);
+		if (letter && letter[0]) {
+			letter[0].setAttribute('status', status);
+		}
+	}
+
+	updateMarks(marks) {
+		if (marks && marks.length == this.getAttribute('length')) {
+			for (let count = 0; count < marks.length; count++) {
+				switch (marks[count]) {
+					case '0':
+						this.setLetterStatus(count, 'missing');
+						break;
+
+					case '1':
+						this.setLetterStatus(count, 'inword');
+						break;
+
+					case '2':
+						this.setLetterStatus(count, 'correct');
+						break;
+
+				}
+			}
+		}
+	}
 	attributeChangedCallback(name, oldValue, newValue) {
 		switch (name) {
 			case 'length':
 			case 'guess':
 				this.updateContent(this.getAttribute('length'), this.getAttribute('guess'));
+				this.updateMarks(this.getAttribute('initial-mark'));
 				break;
 
 			case 'marked':
 				this.updateMarked(newValue);
 				this.statusUpdate();
+				break;
+
+			case 'initial-mark':
+				this.updateMarks(newValue);
 				break;
 		}
 	}
