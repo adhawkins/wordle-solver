@@ -62,6 +62,10 @@
 						board.textContent = "";
 					}
 
+					if (Solver) {
+						Solver.delete();
+					}
+
 					Solver = new Module.CWordleSolver(dictionary, numLetters ? Number(numLetters) : 5, "");
 					const Guess = Solver.InitialGuess();
 					previousMark = ' '.repeat(Guess.length);
