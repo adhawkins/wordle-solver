@@ -35,7 +35,10 @@
 *.pdb
 
 build/
-linux/
-js/
-js-install/
+linux-build/
+web-build/
+web-install/
 console-install/
+src/html/wordle-solver-lib.data
+src/html/wordle-solver-lib.js
+src/html/wordle-solver-lib.wasm

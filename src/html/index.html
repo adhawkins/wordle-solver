@@ -1,0 +1,85 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="index.css">
+		<script src="wordle-letter.js"></script>
+		<script src="wordle-guess.js"></script>
+		<title>Wordle Solver</title>
+
+		<script>
+			let Solver = null;
+
+			var Module = {
+				addGuess: function(guess, guessNum) {
+					const boards = document.getElementsByClassName('board');
+					if (boards) {
+						const board = boards[0];
+						if (guessNum) {
+							const elements = board.querySelectorAll(`wordle-guess[guessnum='${guessNum}']`);
+							if (elements) {
+								elements[0].setAttribute('guess', guess);
+							}
+						} else {
+							const newGuess = document.createElement('wordle-guess');
+							newGuess.setAttribute('length', guess.length);
+							newGuess.setAttribute('guess', guess);
+							newGuess.setAttribute('guessNum', Solver.GuessNum());
+
+							newGuess.addEventListener("GuessMarked", (event) => {
+								const mark = event.target.getAttribute('mark');
+								if (mark == '2'.repeat(mark.length)) {
+									alert(`Got it on guess ${Solver.GuessNum()}`);
+									this.startGame();
+								} else {
+									const parsedMatches = Module.CWordleSolver.ParseMatches(mark);
+									const nextGuess = Solver.Result(parsedMatches);
+									this.addGuess(nextGuess);
+								}
+							});
+
+							newGuess.addEventListener("BadWord", (event) => {
+								const nextGuess = Solver.InvalidWord();
+								this.addGuess(nextGuess, Solver.GuessNum());
+							});
+
+							board.append(newGuess);
+						}
+					}
+				},
+
+				startGame: function () {
+					const urlParams = new URLSearchParams(window.location.search);
+					let numLetters = urlParams.get('letters');
+					let dictionary = "word-lists/wordle-words.txt"
+					if (numLetters && numLetters !=5) {
+						dictionary = "word-lists/words_alpha.txt"
+					}
+
+					const boards = document.getElementsByClassName('board');
+					if (boards) {
+						const board = boards[0];
+						board.textContent = "";
+					}
+
+					Solver = new Module.CWordleSolver(dictionary, numLetters ? Number(numLetters) : 5, "");
+					const Guess = Solver.InitialGuess();
+					this.addGuess(Guess);
+				},
+
+				onRuntimeInitialized: function () {
+					this.startGame();
+				},
+			};
+		</script>
+		<script src="wordle-solver-lib.js"></script>
+		</head>
+
+	<body>
+		<h1>Wordle Solver</h1>
+		<div class="game">
+			<div class="board-container">
+				<div class="board">
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
