@@ -5,4 +5,5 @@ install(FILES
 		index.css
 		wordle-guess.js
 		wordle-letter.js
+		words-loader.js
 		DESTINATION .)

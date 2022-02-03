@@ -48,14 +48,7 @@
 					}
 				},
 
-				startGame: function () {
-					const urlParams = new URLSearchParams(window.location.search);
-					let numLetters = urlParams.get('letters');
-					let dictionary = "word-lists/wordle-words.txt"
-					if (numLetters && numLetters !=5) {
-						dictionary = "word-lists/words_alpha.txt"
-					}
-
+				startGame: function (words) {
 					const boards = document.getElementsByClassName('board');
 					if (boards) {
 						const board = boards[0];
@@ -66,14 +59,43 @@
 						Solver.delete();
 					}
 
-					Solver = new Module.CWordleSolver(dictionary, numLetters ? Number(numLetters) : 5, "");
+					Solver = new Module.CWordleSolver(words, "");
+
 					const Guess = Solver.InitialGuess();
 					previousMark = ' '.repeat(Guess.length);
 					this.addGuess(Guess, previousMark);
 				},
 
 				onRuntimeInitialized: function () {
-					this.startGame();
+					const urlParams = new URLSearchParams(window.location.search);
+					let numLetters = urlParams.get('letters');
+					let dictionary = "word-lists/wordle-words.txt"
+					if (numLetters) {
+						if (numLetters !=5) {
+							dictionary = "word-lists/words_alpha.txt"
+						}
+					} else {
+						numLetters = '5';
+					}
+
+					let worker = new Worker('words-loader.js');
+					worker.postMessage({
+						dictionary: dictionary,
+						numLetters: Number(numLetters)
+					});
+
+					worker.onmessage = function(e) {
+						let words = new Module.StringVector();
+						e.data.forEach(element => {
+							words.push_back(element);
+						});
+
+						const warning = document.getElementsByClassName('warning');
+						if (warning && warning[0]) {
+							warning[0].style.display = 'none';
+						}
+						Module.startGame(words);
+					}
 				},
 			};
 		</script>
@@ -81,8 +103,9 @@
 		</head>
 
 	<body>
-		<h1>Wordle Solver</h1>
+		<div class="warning">Loading dictionary...please wait</div>
 		<div class="game">
+			<h1>Wordle Solver</h1>
 			<div class="board-container">
 				<div class="board">
 				</div>
