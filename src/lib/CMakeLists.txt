@@ -21,8 +21,6 @@ if(EMSCRIPTEN)
 	set_target_properties(wordle-solver-lib PROPERTIES LINK_FLAGS "--bind --preload-file word-lists")
 
 	install(FILES
-			index.html
-			.htaccess
 			${CMAKE_CURRENT_BINARY_DIR}/wordle-solver-lib.js
 			${CMAKE_CURRENT_BINARY_DIR}/wordle-solver-lib.wasm
 			${CMAKE_CURRENT_BINARY_DIR}/wordle-solver-lib.data
