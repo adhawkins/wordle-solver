@@ -10,6 +10,12 @@ CWordleSolver::CWordleSolver(const std::string &WordListFile, int Length, const 
 {
 }
 
+CWordleSolver::CWordleSolver(const std::vector<std::string> &Words, const std::string &InitialGuess)
+		: m_InitialGuess(InitialGuess),
+			m_WordList(Words)
+{
+}
+
 std::string CWordleSolver::InitialGuess()
 {
 	if (!m_InitialGuess.empty())
@@ -100,6 +106,7 @@ EMSCRIPTEN_BINDINGS(wordlesolver)
 {
 	class_<CWordleSolver>("CWordleSolver")
 			.constructor<const std::string &, int, const std::string &>()
+			.constructor<const std::vector<std::string> &, const std::string &>()
 			.function("InitialGuess", &CWordleSolver::InitialGuess)
 			.function("InvalidWord", &CWordleSolver::InvalidWord)
 			.function("Result", &CWordleSolver::Result)

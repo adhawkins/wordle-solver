@@ -8,6 +8,7 @@ class CWordleSolver
 {
 public:
 	CWordleSolver(const std::string &WordListFile, int Length, const std::string &InitialGuess = "");
+	CWordleSolver(const std::vector<std::string> &Words, const std::string &InitialGuess = "");
 
 	std::string InitialGuess();
 	std::string InvalidWord();
