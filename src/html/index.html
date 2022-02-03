@@ -90,9 +90,9 @@
 							words.push_back(element);
 						});
 
-						const warning = document.getElementsByClassName('warning');
-						if (warning && warning[0]) {
-							warning[0].style.display = 'none';
+						const loading = document.getElementsByClassName('loading');
+						if (loading && loading[0]) {
+							loading[0].style.display = 'none';
 						}
 						Module.startGame(words);
 					}
@@ -103,7 +103,7 @@
 		</head>
 
 	<body>
-		<div class="warning">Loading dictionary...please wait</div>
+		<div class="loading spinner">Loading dictionary...please wait</div>
 		<div class="game">
 			<h1>Wordle Solver</h1>
 			<div class="board-container">
