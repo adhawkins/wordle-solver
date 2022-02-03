@@ -10,11 +10,11 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/src/console/wordle-solver.exe",
             "args": [
-                "../words_alpha.txt",
+                "${workspaceFolder}/src/lib/word-lists/words_alpha.txt",
                 "5"
             ],
             "stopAtEntry": false,
-            "cwd": "${fileDirname}",
+            "cwd": "${workspaceFolder}",
             "environment": [],
             "console": "externalTerminal"
         }
