@@ -22,6 +22,7 @@ public:
 
 	void Filter(const std::string &Guess, const tMatchTypeVector &Matches);
 	std::string GetGuess(const std::vector<std::string> &Guesses) const;
+	std::vector<std::string> Words() const { return m_Words; }
 
 private:
 	void LoadWords(const std::string &FileName, int Length);
