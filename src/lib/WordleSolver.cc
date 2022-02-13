@@ -96,6 +96,34 @@ CWordList::tMatchTypeVector CWordleSolver::ParseMatches(const std::string &strMa
 	return Matches;
 }
 
+std::string CWordleSolver::ColourMatches(const std::string &Guess, const CWordList::tMatchTypeVector &Matches)
+{
+	std::stringstream ColouredMatches;
+
+	for (CWordList::tMatchTypeVector::size_type count = 0; count < Matches.size(); count++)
+	{
+		std::string ColourString;
+
+		switch (Matches[count])
+		{
+		case CWordList::tMatchType::eNotPresent:
+			break;
+
+		case CWordList::tMatchType::eWrongLocation:
+			ColourString = m_cYellow;
+			break;
+
+		case CWordList::tMatchType::eRightLocation:
+			ColourString = m_cGreen;
+			break;
+		}
+
+		ColouredMatches << ColourString << Guess[count] << m_cDefault;
+	}
+
+	return ColouredMatches.str();
+}
+
 #ifdef EMSCRIPTEN
 
 #include <emscripten/bind.h>

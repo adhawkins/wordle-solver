@@ -5,38 +5,6 @@
 
 #include "WordleSolver.h"
 
-const char *cGreen = "\033[32m";
-const char *cYellow = "\033[33m";
-const char *cDefault = "\033[0m";
-
-std::string ColourMatches(const std::string &Guess, const CWordList::tMatchTypeVector &Matches)
-{
-	std::stringstream ColouredMatches;
-
-	for (CWordList::tMatchTypeVector::size_type count = 0; count < Matches.size(); count++)
-	{
-		std::string ColourString;
-
-		switch (Matches[count])
-		{
-		case CWordList::tMatchType::eNotPresent:
-			break;
-
-		case CWordList::tMatchType::eWrongLocation:
-			ColourString = cYellow;
-			break;
-
-		case CWordList::tMatchType::eRightLocation:
-			ColourString = cGreen;
-			break;
-		}
-
-		ColouredMatches << ColourString << Guess[count] << cDefault;
-	}
-
-	return ColouredMatches.str();
-}
-
 int main(int argc, const char *argv[])
 {
 	if (argc>=3)
@@ -75,7 +43,7 @@ int main(int argc, const char *argv[])
 																							}))
 			{
 				auto Matches = CWordleSolver::ParseMatches(strMatches);
-				std::cout << ColourMatches(Guess, Matches) << std::endl;
+				std::cout << CWordleSolver::ColourMatches(Guess, Matches) << std::endl;
 
 				if (Matches.end() == std::find_if_not(Matches.begin(),
 																							Matches.end(),

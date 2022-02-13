@@ -1,6 +1,24 @@
 cmake_minimum_required(VERSION 3.0.0)
 
+enable_testing()
+
 add_library(wordle-solver WordleSolver.cc WordList.cc)
+
+add_executable(TestSolver TestSolver.cc)
+target_link_libraries(TestSolver PUBLIC wordle-solver)
+
+FILE(READ "${CMAKE_CURRENT_SOURCE_DIR}/word-lists/wordle-words.txt" words)
+STRING(REGEX REPLACE "\n" ";" words "${words}")
+
+list(SUBLIST words 0 20 start_words)
+list(SUBLIST words 30 20 correct_words)
+
+foreach(start ${start_words})
+	foreach(correct ${correct_words})
+		add_test(NAME test-${start}-${correct}
+			COMMAND TestSolver ${CMAKE_CURRENT_SOURCE_DIR}/word-lists/wordle-words.txt 5 ${start} ${correct})
+	endforeach()
+endforeach()
 
 if(EMSCRIPTEN)
 	file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/null.cc "")
