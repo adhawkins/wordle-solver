@@ -5,6 +5,8 @@ add_library(wordle-solver WordleSolver.cc WordList.cc)
 if(EMSCRIPTEN)
 	file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/null.cc "")
 
+	set_target_properties(wordle-solver PROPERTIES LINK_FLAGS "-s NO_DYNAMIC_EXECUTION=1")
+
 	add_custom_target(copy-words
 		COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/word-lists ${CMAKE_CURRENT_BINARY_DIR}/word-lists
 		)
@@ -18,7 +20,7 @@ if(EMSCRIPTEN)
 		wordle-solver
 		-Wl,--no-whole-archive)
 
-	set_target_properties(wordle-solver-lib PROPERTIES LINK_FLAGS "--bind --preload-file word-lists")
+	set_target_properties(wordle-solver-lib PROPERTIES LINK_FLAGS "--bind --preload-file word-lists -s NO_DYNAMIC_EXECUTION=1")
 
 	install(FILES
 			${CMAKE_CURRENT_BINARY_DIR}/wordle-solver-lib.js
