@@ -4,5 +4,12 @@ project(wordle-solver VERSION 0.1.0)
 
 add_subdirectory(src)
 
-enable_testing()
+include(CTest)
+
+set(CPACK_GENERATOR "ZIP")
+set(CPACK_ARCHIVE_COMPONENT_INSTALL ON)
+
+include (CPack)
+
+message(STATUS "File: '${CPACK_PACKAGE_FILE_NAME}'")
 

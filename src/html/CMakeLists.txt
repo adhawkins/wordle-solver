@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 3.0.0)
+include(CPack)
+
+cpack_add_component(web)
 
 install(FILES
 		index.html
@@ -6,4 +8,5 @@ install(FILES
 		wordle-guess.js
 		wordle-letter.js
 		words-loader.js
-		DESTINATION .)
+		COMPONENT web
+		DESTINATION web)
