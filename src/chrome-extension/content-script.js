@@ -136,5 +136,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 			sendGuess(guess);
 		}, 1000);
 	}
+
+	return true;
 });
 
