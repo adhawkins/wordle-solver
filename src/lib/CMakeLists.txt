@@ -53,6 +53,6 @@ else()
 	endforeach()
 
 	install(DIRECTORY word-lists
-		COMPONENT web
-		DESTINATION web)
+		COMPONENT console
+		DESTINATION .)
 endif()

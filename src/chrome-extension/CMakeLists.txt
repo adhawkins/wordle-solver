@@ -1,7 +1,5 @@
 include(CPack)
 
-cpack_add_component(chrome-extension)
-
 install(FILES
 		background-script.js
 		content-script.js

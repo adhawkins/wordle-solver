@@ -11,5 +11,6 @@ set(CPACK_ARCHIVE_COMPONENT_INSTALL ON)
 
 include (CPack)
 
-message(STATUS "File: '${CPACK_PACKAGE_FILE_NAME}'")
-
+cpack_add_component(chrome-extension)
+cpack_add_component(web)
+cpack_add_component(console)

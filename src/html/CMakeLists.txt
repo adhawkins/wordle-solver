@@ -1,7 +1,5 @@
 include(CPack)
 
-cpack_add_component(web)
-
 install(FILES
 		index.html
 		index.css
