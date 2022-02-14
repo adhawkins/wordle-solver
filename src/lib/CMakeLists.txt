@@ -1,3 +1,5 @@
+include(CTest)
+
 add_library(wordle-solver WordleSolver.cc WordList.cc)
 
 if(EMSCRIPTEN)

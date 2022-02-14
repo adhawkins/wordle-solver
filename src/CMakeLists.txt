@@ -1,3 +1,5 @@
+include(CTest)
+
 if(EMSCRIPTEN)
 	SET(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/web-install CACHE PATH ADH FORCE)
 else()
