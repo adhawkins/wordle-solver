@@ -29,7 +29,7 @@ int main(int argc, const char *argv[])
 			}
 
 			std::string strMatches;
-			while (strMatches.length() != Length)
+			while (strMatches.length() != Length && strMatches != "z")
 			{
 				std::cout << "Guess is '" << Guess << "' - Enter matches: ";
 				std::getline(std::cin, strMatches);
