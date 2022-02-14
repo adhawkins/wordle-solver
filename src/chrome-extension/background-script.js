@@ -1,9 +1,18 @@
+let validSites = [];
+
+const manifest = chrome.runtime.getManifest();
+manifest.content_scripts.forEach(function (script) {
+	script.matches.forEach(function (match) {
+		validSites.push(match);
+	})
+})
+
 updateIcon();
 
 async function updateIcon() {
 	const tab = await getCurrentTab();
 	if (tab) {
-		if (tab.url == "https://www.nytimes.com/games/wordle/index.html") {
+		if (validSites.includes(tab.url)) {
 			chrome.action.enable();
 		} else {
 			chrome.action.disable();
