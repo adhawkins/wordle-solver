@@ -40,7 +40,7 @@ function sendGuess(guess) {
 }
 
 function clearGuess() {
-	for (let i = 0; i < 5; i++) {
+	for (let i = 0; i < wordLength; i++) {
 		sendKey('Backspace');
 	}
 }
@@ -52,7 +52,7 @@ function changesCallback(changes) {
 			const parent = target.parentElement;
 			const tiles = parent.querySelectorAll('game-tile');
 
-			let result = '     ';
+			let result = ' '.repeat(wordLength);
 
 			for (let count = 0; count < tiles.length; count++) {
 				switch (tiles[count].getAttribute('evaluation')) {
@@ -70,7 +70,7 @@ function changesCallback(changes) {
 				}
 			}
 
-			if (result == '22222') {
+			if (result == '2'.repeat(wordLength)) {
 				chrome.runtime.sendMessage({
 					"action": "complete"
 				});
@@ -94,6 +94,8 @@ function changesCallback(changes) {
 }
 
 let lastRow = null;
+let wordLength = 5;
+let dictionary = "word-lists/wordle-words.txt";
 
 const observer = new MutationObserver(changesCallback);
 
@@ -104,6 +106,12 @@ if (gameAppContent) {
 	gameKeyboard = gameAppContent.querySelectorAll('game-keyboard');
 
 	const gameRows = gameAppContent.querySelectorAll('game-row');
+
+	wordLength = Number(gameRows[0].getAttribute('length'));
+	if (wordLength != 5) {
+		dictionary = "word-lists/words_alpha.txt";
+	}
+
 	lastRow = gameRows[gameRows.length - 1];
 
 	gameRows.forEach((function (row) {
@@ -129,7 +137,7 @@ let solver = null;
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	if (Module.initialised) {
-		solver = new Module.CWordleSolver("word-lists/wordle-words.txt", 5, "");
+		solver = new Module.CWordleSolver(dictionary, wordLength, "");
 		const guess = solver.InitialGuess();
 
 		setTimeout(() => {
