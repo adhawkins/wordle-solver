@@ -17,7 +17,8 @@
 		{
 			"matches": [
 				"https://www.nytimes.com/games/wordle/index.html",
-				"https://www.powerlanguage.co.uk/wordle/"
+				"https://www.powerlanguage.co.uk/wordle/",
+				"https://www.wordle2.in/"
 			],
 			"js": [
 				"content-script.js",
