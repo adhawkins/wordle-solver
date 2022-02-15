@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0.0)
 
 add_executable(wordle-solver-bin Main.cc)
 target_link_libraries(wordle-solver-bin wordle-solver)
-target_include_directories(wordle-solver-bin PRIVATE ../lib)
+target_include_directories(wordle-solver-bin PRIVATE ../lib ${CMAKE_BINARY_DIR})
 
 set_target_properties(wordle-solver-bin PROPERTIES OUTPUT_NAME wordle-solver)
 
