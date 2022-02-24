@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0.0)
 
 project(wordle-solver VERSION 0.1.0)
 
-if(MSVC)
+if(WIN32)
 	include(FetchContent)
 	FetchContent_Declare(vcpkg GIT_REPOSITORY https://github.com/Microsoft/vcpkg.git)
 	FetchContent_MakeAvailable(vcpkg)

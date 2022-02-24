@@ -9,11 +9,16 @@ if(MSVC)
 	find_library(GETOPT_LIB NAMES getopt)
 	target_include_directories(wordle-solver-bin PRIVATE ${GETOPT_INCLUDE_DIR})
 	target_link_libraries(wordle-solver-bin shlwapi ${GETOPT_LIB})
+
+	message(STATUS "Binary dir: '${CMAKE_CURRENT_BINARY_DIR}'")
+	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/getopt.dll
+		DESTINATION bin
+		COMPONENT console)
 endif()
 
 set_target_properties(wordle-solver-bin PROPERTIES OUTPUT_NAME wordle-solver)
 
 install(TARGETS wordle-solver-bin
-	RUNTIME
-	DESTINATION bin
+	RUNTIME	DESTINATION bin
 	COMPONENT console)
+
