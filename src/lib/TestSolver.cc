@@ -44,7 +44,7 @@ int main(int argc, const char *argv[])
 	}
 	else
 	{
-		std::cout << "Usage: " << argv[0] << "wordlistfile wordlength initial-guess correct-word" << std::endl;
+		std::cout << "Usage: " << argv[0] << " wordlistfile wordlength initial-guess correct-word" << std::endl;
 	}
 
 	return 0;
