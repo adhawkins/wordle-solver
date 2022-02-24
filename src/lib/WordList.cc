@@ -7,6 +7,32 @@
 
 #include <assert.h>
 
+CWordList::CWord::CWord(const std::string &Word)
+		: m_Word(Word)
+{
+	CountLetters();
+}
+
+void CWordList::CWord::CountLetters()
+{
+	m_UniqueLetters = UniqueLetters(m_Word);
+
+	auto Vowels(m_Word);
+	Vowels.erase(std::remove_if(Vowels.begin(),
+															Vowels.end(),
+															[](unsigned char x)
+															{
+																return (x != 'a' && x != 'e' && x != 'i' && x != 'o' && x != 'u');
+															}),
+							 Vowels.end());
+	m_UniqueVowels = UniqueLetters(Vowels);
+}
+
+std::string::size_type CWordList::CWord::UniqueLetters(const std::string &String)
+{
+	return std::unordered_set<char>(std::begin(String), std::end(String)).size();
+}
+
 CWordList::CWordList(const std::string &FileName, int Length)
 {
 	LoadWords(FileName, Length);
@@ -14,8 +40,12 @@ CWordList::CWordList(const std::string &FileName, int Length)
 }
 
 CWordList::CWordList(const std::vector<std::string> &Words)
-: m_Words(Words)
 {
+	for (const auto &Word : Words)
+	{
+		m_Words.push_back(CWord(Word));
+	}
+
 	SortWords();
 }
 
@@ -30,11 +60,13 @@ void CWordList::LoadWords(const std::string &FileName, int Length)
 		{
 			Line.erase(std::remove_if(Line.begin(),
 																Line.end(),
-																[](unsigned char x) {
-																	return (x=='\n' || x=='\r');
-																}), Line.end());
+																[](unsigned char x)
+																{
+																	return (x == '\n' || x == '\r');
+																}),
+								 Line.end());
 
-			if (Line.length()==Length)
+			if (Line.length() == Length)
 			{
 				m_Words.push_back(Line);
 			}
@@ -46,27 +78,28 @@ class CStringMatch
 {
 public:
 	CStringMatch(const std::string &Guess, const std::string &InvalidLetters, const CWordList::tMatchTypeVector &Matches)
-	: m_Guess(Guess),
-		m_InvalidLetters(InvalidLetters),
-		m_Matches(Matches)
+			: m_Guess(Guess),
+				m_InvalidLetters(InvalidLetters),
+				m_Matches(Matches)
 	{
 	}
 
-	bool operator()(const std::string &Item) const
+	bool operator()(const CWordList::CWord &Item) const
 	{
 		std::vector<std::string> DebugWords;
+		auto Word = Item.m_Word;
 
-//		DebugWords.push_back("toast");
+		//		DebugWords.push_back("toast");
 
-		bool Debug = (DebugWords.end() != std::find(DebugWords.begin(), DebugWords.end(), Item));
+		bool Debug = (DebugWords.end() != std::find(DebugWords.begin(), DebugWords.end(), Word));
 		if (Debug)
 		{
-			std::cout << "Debugging for '" << Item << "'" << std::endl;
+			std::cout << "Debugging for '" << Word << "'" << std::endl;
 		}
 
-		//Check word doesn't contain letters we know aren't in it
+		// Check word doesn't contain letters we know aren't in it
 
-		if (std::string::npos != Item.find_first_of(m_InvalidLetters))
+		if (std::string::npos != Word.find_first_of(m_InvalidLetters))
 		{
 			if (Debug)
 			{
@@ -81,7 +114,7 @@ public:
 			switch (m_Matches[count])
 			{
 			case CWordList::tMatchType::eNotPresent:
-				if (m_Guess[count] == Item[count])
+				if (m_Guess[count] == Word[count])
 				{
 					if (Debug)
 					{
@@ -94,7 +127,7 @@ public:
 				break;
 
 			case CWordList::tMatchType::eRightLocation:
-				if (Item[count] != m_Guess[count])
+				if (Word[count] != m_Guess[count])
 				{
 					if (Debug)
 					{
@@ -107,7 +140,7 @@ public:
 				break;
 
 			case CWordList::tMatchType::eWrongLocation:
-				if (m_Guess[count] == Item[count])
+				if (m_Guess[count] == Word[count])
 				{
 					if (Debug)
 					{
@@ -117,7 +150,7 @@ public:
 					return true;
 				}
 
-				if (std::string::npos == Item.find(m_Guess[count]))
+				if (std::string::npos == Word.find(m_Guess[count]))
 				{
 					if (Debug)
 					{
@@ -166,15 +199,15 @@ void CWordList::Filter(const std::string &Guess, const tMatchTypeVector &Matches
 	{
 		switch (Matches[count])
 		{
-			case tMatchType::eNotPresent:
-				if (std::string::npos == ValidLetters.find(Guess[count]))
-				{
-					InvalidLetters += Guess[count];
-				}
+		case tMatchType::eNotPresent:
+			if (std::string::npos == ValidLetters.find(Guess[count]))
+			{
+				InvalidLetters += Guess[count];
+			}
 
-			case tMatchType::eRightLocation:
-			case tMatchType::eWrongLocation:
-				break;
+		case tMatchType::eRightLocation:
+		case tMatchType::eWrongLocation:
+			break;
 		}
 	}
 
@@ -184,8 +217,6 @@ void CWordList::Filter(const std::string &Guess, const tMatchTypeVector &Matches
 
 	auto LastElement = std::remove_if(m_Words.begin(), m_Words.end(), StringMatch);
 	m_Words.erase(LastElement, m_Words.end());
-
-	//std::cout << "Gone from " << InitialSize << " to " << m_Words.size() << std::endl;
 }
 
 std::string CWordList::GetGuess(const std::vector<std::string> &Guesses) const
@@ -194,24 +225,24 @@ std::string CWordList::GetGuess(const std::vector<std::string> &Guesses) const
 	{
 		if (Guesses.empty())
 		{
-			switch (m_Words[0].length())
+			switch (m_Words[0].m_Word.length())
 			{
-				case 5:
-					return "arise";
+			case 5:
+				return "arise";
 
-				case 9:
-					return "beautiful";
+			case 9:
+				return "beautiful";
 
-				default:
-					break;
+			default:
+				break;
 			}
 		}
 
 		for (const auto &Word : m_Words)
 		{
-			if (Guesses.end() == std::find(Guesses.begin(), Guesses.end(), Word))
+			if (Guesses.end() == std::find(Guesses.begin(), Guesses.end(), Word.m_Word))
 			{
-				return Word;
+				return Word.m_Word;
 			}
 		}
 	}
@@ -219,15 +250,18 @@ std::string CWordList::GetGuess(const std::vector<std::string> &Guesses) const
 	return "";
 }
 
-std::string::size_type CWordList::UniqueLetters(const std::string &String)
-{
-	return std::unordered_set<char>(std::begin(String), std::end(String)).size();
-}
-
 void CWordList::SortWords()
 {
-	std::sort(m_Words.begin(), m_Words.end(), [](const std::string &a, const std::string &b)
-						{ return UniqueLetters(a) > UniqueLetters(b); });
+	std::sort(m_Words.begin(), m_Words.end(), [](const CWord &a, const CWord &b)
+						{
+							if (a.m_UniqueVowels != b.m_UniqueVowels)
+							{
+								return a.m_UniqueVowels > b.m_UniqueVowels;
+							}
+							else
+							{
+								return a.m_UniqueLetters > b.m_UniqueLetters;
+							} });
 }
 
 #ifdef EMSCRIPTEN
