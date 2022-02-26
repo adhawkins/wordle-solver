@@ -32,6 +32,11 @@ function sendKey(key) {
 }
 
 function sendGuess(guess) {
+	const guessNum = solver.GuessNum();
+	const numWords = solver.NumWords();
+
+	wordCounts[guessNum - 1].textContent = numWords;
+
 	for (const c of guess) {
 		sendKey(c);
 	}
@@ -96,47 +101,54 @@ function changesCallback(changes) {
 let lastRow = null;
 let wordLength = 5;
 let dictionary = "word-lists/wordle-words.txt";
+const wordCounts = Array();
 
 const observer = new MutationObserver(changesCallback);
 
 const gameApp = document.querySelectorAll('game-app');
 const gameAppContent = gameApp[0].shadowRoot;
 
-if (gameAppContent) {
-	gameKeyboard = gameAppContent.querySelectorAll('game-keyboard');
-
-	const gameRows = gameAppContent.querySelectorAll('game-row');
-
-	wordLength = Number(gameRows[0].getAttribute('length'));
-	if (wordLength != 5) {
-		dictionary = "word-lists/words_alpha.txt";
-	}
-
-	lastRow = gameRows[gameRows.length - 1];
-
-	gameRows.forEach((function (row) {
-		const rowContent = row.shadowRoot;
-		const tiles = rowContent.querySelectorAll('game-tile');
-		observer.observe(tiles[tiles.length - 1], { attributes: true });
-
-		row.addEventListener('animationend', (function (a) {
-			if (a.animationName == 'Shake') {
-				clearGuess();
-
-				const nextGuess = solver.InvalidWord();
-
-				setTimeout(() => {
-					sendGuess(nextGuess);
-				}, 1000);
-			}
-		}));
-	}));
-}
-
 let solver = null;
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	if (Module.initialised) {
+		if (gameAppContent) {
+			gameKeyboard = gameAppContent.querySelectorAll('game-keyboard');
+
+			const gameRows = gameAppContent.querySelectorAll('game-row');
+
+			wordLength = Number(gameRows[0].getAttribute('length'));
+			if (wordLength != 5) {
+				dictionary = "word-lists/words_alpha.txt";
+			}
+
+			lastRow = gameRows[gameRows.length - 1];
+
+			gameRows.forEach((function (row) {
+				const rowContent = row.shadowRoot;
+				const rowDiv = rowContent.querySelectorAll('div')[0];
+				rowDiv.style.gridTemplateColumns = `repeat(${wordLength + 1}, 1fr)`;
+				let span = document.createElement('SPAN');
+				span.textContent = ' ';
+				rowDiv.appendChild(span);
+				wordCounts.push(span);
+				const tiles = rowContent.querySelectorAll('game-tile');
+				observer.observe(tiles[tiles.length - 1], { attributes: true });
+
+				row.addEventListener('animationend', (function (a) {
+					if (a.animationName == 'Shake') {
+						clearGuess();
+
+						const nextGuess = solver.InvalidWord();
+
+						setTimeout(() => {
+							sendGuess(nextGuess);
+						}, 1000);
+					}
+				}));
+			}));
+		}
+
 		solver = new Module.CWordleSolver(dictionary, wordLength, "");
 		const guess = solver.InitialGuess();
 
