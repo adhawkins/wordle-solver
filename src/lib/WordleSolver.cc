@@ -139,6 +139,7 @@ EMSCRIPTEN_BINDINGS(wordlesolver)
 			.function("InvalidWord", &CWordleSolver::InvalidWord)
 			.function("Result", &CWordleSolver::Result)
 			.function("GuessNum", &CWordleSolver::GuessNum)
+			.function("NumWords", &CWordleSolver::NumWords)
 			.class_function("ParseMatches", &CWordleSolver::ParseMatches);
 }
 

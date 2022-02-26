@@ -277,7 +277,7 @@ EMSCRIPTEN_BINDINGS(wordlist)
 			.constructor<const std::vector<std::string> &>()
 			.function("Filter", &CWordList::Filter)
 			.function("GetGuess", &CWordList::GetGuess)
-			.function("Words", &CWordList::Words);
+			.function("NumWords", &CWordList::NumWords);
 
 	register_vector<std::string>("StringVector");
 	register_vector<CWordList::tMatchType>("MatchTypeVector");

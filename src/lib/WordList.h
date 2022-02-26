@@ -40,7 +40,7 @@ public:
 
 	void Filter(const std::string &Guess, const tMatchTypeVector &Matches);
 	std::string GetGuess(const std::vector<std::string> &Guesses) const;
-	std::vector<CWord> Words() const { return m_Words; }
+	std::vector<CWord>::size_type NumWords() const { return m_Words.size(); }
 
 private:
 	void LoadWords(const std::string &FileName, int Length);

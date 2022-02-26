@@ -14,6 +14,7 @@ public:
 	std::string InvalidWord();
 	std::string Result(const CWordList::tMatchTypeVector &Matches);
 	int GuessNum() const { return m_GuessNum; }
+	int NumWords() const { return m_WordList.NumWords(); }
 
 	static CWordList::tMatchTypeVector ParseMatches(const std::string &strMatches);
 	static CWordList::tMatchTypeVector CalculateMatches(const std::string &Correct, const std::string &Guess);
