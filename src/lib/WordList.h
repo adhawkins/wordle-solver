@@ -40,6 +40,7 @@ public:
 
 	void Filter(const std::string &Guess, const tMatchTypeVector &Matches);
 	std::string GetGuess(const std::vector<std::string> &Guesses) const;
+	std::vector<std::string> Words() const;
 	std::vector<CWord>::size_type NumWords() const { return m_Words.size(); }
 
 private:

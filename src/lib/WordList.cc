@@ -74,6 +74,18 @@ void CWordList::LoadWords(const std::string &FileName, int Length)
 	}
 }
 
+std::vector<std::string> CWordList::Words() const
+{
+	std::vector<std::string> Ret;
+
+	for (const auto &Word : m_Words)
+	{
+		Ret.push_back(Word.m_Word);
+	}
+
+	return Ret;
+}
+
 class CStringMatch
 {
 public:
@@ -277,6 +289,7 @@ EMSCRIPTEN_BINDINGS(wordlist)
 			.constructor<const std::vector<std::string> &>()
 			.function("Filter", &CWordList::Filter)
 			.function("GetGuess", &CWordList::GetGuess)
+			.function("Words", &CWordList::Words)
 			.function("NumWords", &CWordList::NumWords);
 
 	register_vector<std::string>("StringVector");
