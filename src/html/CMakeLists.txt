@@ -1,5 +1,7 @@
 include(CPack)
 
+configure_file(index.html.in ${CMAKE_CURRENT_SOURCE_DIR}/index.html @ONLY)
+
 install(FILES
 		index.html
 		index.css

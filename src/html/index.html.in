@@ -106,7 +106,7 @@
 	<body>
 		<div class="loading spinner">Loading dictionary...please wait</div>
 		<div class="game">
-			<h1>Wordle Solver v0.1.0</h1>
+			<h1>Wordle Solver v@wordle-solver_VERSION@</h1>
 			<div class="board-container">
 				<div class="board">
 				</div>
