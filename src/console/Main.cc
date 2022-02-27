@@ -152,7 +152,7 @@ int main(int argc, char **argv)
 		std::string strMatches;
 		while (strMatches.length() != Length && strMatches != "z")
 		{
-			std::cout << "Guess is '" << Guess << "' - Enter matches: ";
+			std::cout << Solver.NumWords() << " word" << (Solver.NumWords() == 1 ? "" : "s") << " - guess is '" << Guess << "' - Enter matches: ";
 			std::getline(std::cin, strMatches);
 		}
 
