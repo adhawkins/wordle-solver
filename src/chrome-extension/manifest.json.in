@@ -1,7 +1,7 @@
 {
 	"manifest_version": 3,
 	"name": "Gently Wordle Solver",
-	"version": "0.0.1",
+	"version": "@wordle-solver_VERSION@",
 	"description": "A Wordle solver",
 	"author": "Andy Hawkins <andy@gently.org.uk>",
 	"icons": {

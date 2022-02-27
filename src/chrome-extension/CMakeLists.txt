@@ -1,5 +1,7 @@
 include(CPack)
 
+configure_file(manifest.json.in ${CMAKE_CURRENT_SOURCE_DIR}/manifest.json)
+
 install(FILES
 		background-script.js
 		content-script.js
