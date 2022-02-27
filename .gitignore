@@ -43,3 +43,4 @@ src/html/wordle-solver-lib.data
 src/html/wordle-solver-lib.js
 src/html/wordle-solver-lib.wasm
 src/chrome-extension/manifest.json
+src/html/index.html
