@@ -20,7 +20,7 @@ if(EMSCRIPTEN)
 		wordle-solver
 		-Wl,--no-whole-archive)
 
-	set_target_properties(wordle-solver-lib PROPERTIES LINK_FLAGS "--bind --preload-file word-lists -s NO_DYNAMIC_EXECUTION=1")
+	set_target_properties(wordle-solver-lib PROPERTIES LINK_FLAGS "--bind --preload-file ${CMAKE_CURRENT_BINARY_DIR}/word-lists@/word-lists -s NO_DYNAMIC_EXECUTION=1")
 
 	install(FILES
 			${CMAKE_CURRENT_BINARY_DIR}/wordle-solver-lib.js
