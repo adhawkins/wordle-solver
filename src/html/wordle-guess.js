@@ -4,7 +4,8 @@ class WordleGuess extends HTMLElement {
 			'length',
 			'guess',
 			'marked',
-			'initial-mark'
+			'initial-mark',
+			'num-words'
 		];
 	}
 
@@ -34,6 +35,9 @@ class WordleGuess extends HTMLElement {
 
 	updateContent(length, guess) {
 		this.wrapper.innerText = "";
+
+		this.numWords = document.createElement('SPAN');
+		this.wrapper.append(this.numWords);
 
 		for (let count = 0; count < length; count++) {
 			const tile = document.createElement('wordle-letter');
@@ -81,7 +85,7 @@ class WordleGuess extends HTMLElement {
 
 		this.wrapper.append(this.badWordButton);
 
-		this.wrapper.style['grid-template-columns'] = `repeat(${length}, 1fr) auto auto`;
+		this.wrapper.style['grid-template-columns'] = `repeat(${Number(length) + 1}, 1fr) auto auto`;
 	}
 
 	statusToNum(status) {
@@ -173,6 +177,10 @@ class WordleGuess extends HTMLElement {
 
 			case 'initial-mark':
 				this.updateMarks(newValue);
+				break;
+
+			case 'num-words':
+				this.numWords.innerText = newValue;
 				break;
 		}
 	}

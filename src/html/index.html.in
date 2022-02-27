@@ -26,6 +26,7 @@
 							newGuess.setAttribute('guess', guess);
 							newGuess.setAttribute('guessNum', Solver.GuessNum());
 							newGuess.setAttribute('initial-mark', previousMark);
+							newGuess.setAttribute('num-words', Solver.NumWords());
 
 							newGuess.addEventListener("GuessMarked", (event) => {
 								previousMark = event.target.getAttribute('mark');
