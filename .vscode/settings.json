@@ -47,5 +47,8 @@
 		"xstddef": "cpp",
 		"xtr1common": "cpp",
 		"algorithm": "cpp"
+	},
+	"yaml.schemas": {
+		"https://json.schemastore.org/github-workflow.json": "file:///x%3A/software/wordle-solver/.github/workflows/build.yml"
 	}
 }
