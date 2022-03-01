@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ windows-latest, ubuntu-latest ]
+        os: [ windows-latest, ubuntu-latest, macos-latest ]
 
     steps:
     - uses: actions/checkout@v2
@@ -59,4 +59,10 @@ jobs:
       if: matrix.os == 'windows-latest'
       with:
         name: windows-build
+        path: ${{github.workspace}}/build/*.zip
+
+    - uses: actions/upload-artifact@v2
+      if: matrix.os == 'macos-latest'
+      with:
+        name: macos-build
         path: ${{github.workspace}}/build/*.zip
