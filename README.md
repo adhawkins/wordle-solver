@@ -4,7 +4,7 @@
 
 This project provides a console application, web page and Chrome extension for solving [Wordle](https://www.nytimes.com/games/wordle/index.html) puzzles.
 
-It also works with [Wordle2](https://www.wordle2.in/).
+It works with [Wordle2](https://www.wordle2.in/) and [Septle](https://septle.com/) too!
 
 ## Requirements
 
