@@ -29,11 +29,22 @@ In the build directory, a ZIP file will be created (named like `wordle-solver-1.
 
 Extract the ZIP file created during the build step.
 
-`Usage: ./wordle-solver wordlistfile wordlength [initial guess word]`
+Usage:
 
+```
+wordle-solver usage:
+
+        -h, --help              Display this message
+        -v, --version           Display version information
+        -d, --dictionary        Path to dictionary to use
+        [ -l, --word-length ]   Length of word to guess - defaults to 5
+        [ -i, --initial-guess ] Initial guess
+```
 **Sample invocation**
 
-`bin/wordle-solver word-lists/wordle-words.txt 5`
+```
+bin/wordle-solver -d word-lists/wordle-words.txt -l 5
+```
 
 The software will provide you with a 'guess' to enter. This guess should be entered into Wordle, and the marks entered into the software. One digit should be entered for each letter as follows:
 
@@ -89,4 +100,4 @@ The extension needs to be installed in Chrome using 'developer mode':
 
 The extension should now be installed. You may want to click on 'Details' for the extension, and enable 'Allow in Incognito' in order to be able to use the extension in an Incognito window (after completing each daily Wordle puzzle as normal).
 
-To use the extension, simply open the Wordle (or Wordle2) site. The extension's button should become enabled. Clicking on the extension's button should automatically enter guesses into the puzzle until it is solved, or all guesses are used up.
+To use the extension, simply open a supported Wordle site, the extension's button should become enabled. Clicking on the extension's button should automatically enter guesses into the puzzle until it is solved, or all guesses are used up.
