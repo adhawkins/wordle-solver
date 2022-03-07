@@ -13,3 +13,9 @@ install(FILES
 		DESTINATION chrome-extension
 		COMPONENT chrome-extension)
 
+if(PANDOC_EXE)
+	install(FILES ${CMAKE_BINARY_DIR}/README.html
+		DESTINATION .
+		COMPONENT chrome-extension
+	)
+endif()

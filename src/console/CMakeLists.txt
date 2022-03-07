@@ -22,3 +22,9 @@ install(TARGETS wordle-solver-bin
 	RUNTIME	DESTINATION bin
 	COMPONENT console)
 
+if(PANDOC_EXE)
+	install(FILES ${CMAKE_BINARY_DIR}/README.html
+		DESTINATION .
+		COMPONENT console
+	)
+endif()

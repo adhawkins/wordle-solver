@@ -10,3 +10,10 @@ install(FILES
 		words-loader.js
 		COMPONENT web
 		DESTINATION web)
+
+if(PANDOC_EXE)
+	install(FILES ${CMAKE_BINARY_DIR}/README.html
+		DESTINATION .
+		COMPONENT web
+	)
+endif()
