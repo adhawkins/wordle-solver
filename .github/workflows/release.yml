@@ -23,3 +23,4 @@ jobs:
           console-build/*
           web-build/*
           windows-build/*
+          macos-build/*
