@@ -71,13 +71,27 @@
 				onRuntimeInitialized: function () {
 					const urlParams = new URLSearchParams(window.location.search);
 					let numLetters = urlParams.get('letters');
-					let dictionary = "word-lists/wordle-words.txt"
-					if (numLetters) {
-						if (numLetters !=5) {
-							dictionary = "word-lists/words_alpha.txt"
-						}
-					} else {
+					let dictionary = ""
+					if (!numLetters) {
 						numLetters = '5';
+					}
+
+					switch (numLetters) {
+						case '5':
+							dictionary = "word-lists/wordle-words.txt";
+							break;
+
+						case '6':
+							dictionary = "word-lists/wordle2-words.txt";
+							break;
+
+						case '7':
+							dictionary = "word-lists/septle-words.txt";
+							break;
+
+						default:
+							dictionary = "word-lists/words_alpha.txt";
+							break;
 					}
 
 					let worker = new Worker('words-loader.js');

@@ -100,7 +100,7 @@ function changesCallback(changes) {
 
 let lastRow = null;
 let wordLength = 5;
-let dictionary = "word-lists/wordle-words.txt";
+let dictionary = "";
 const wordCounts = Array();
 
 const observer = new MutationObserver(changesCallback);
@@ -118,8 +118,22 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 			const gameRows = gameAppContent.querySelectorAll('game-row');
 
 			wordLength = Number(gameRows[0].getAttribute('length'));
-			if (wordLength != 5) {
-				dictionary = "word-lists/words_alpha.txt";
+			switch (wordLength) {
+				case 5:
+					dictionary = "word-lists/wordle-words.txt";
+					break;
+
+				case 6:
+					dictionary = "word-lists/wordle2-words.txt";
+					break;
+
+				case 7:
+					dictionary = "word-lists/septle-words.txt";
+					break;
+
+				default:
+					dictionary = "word-lists/words_alpha.txt";
+					break;
 			}
 
 			lastRow = gameRows[gameRows.length - 1];
