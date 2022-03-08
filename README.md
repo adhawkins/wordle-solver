@@ -6,6 +6,8 @@ This project provides a console application, web page and Chrome extension for s
 
 It works with [Wordle2](https://www.wordle2.in/) and [Septle](https://septle.com/) too!
 
+It comes with word lists to be used with Wordle, Wordle2 and Septle, as well as a 'generic' word list for use with other puzzles.
+
 ## Requirements
 
 The project is built using [cmake](https://cmake.org/).
