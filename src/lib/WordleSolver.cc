@@ -47,24 +47,32 @@ std::string CWordleSolver::Result(const CWordList::tMatchTypeVector& Matches)
 CWordList::tMatchTypeVector CWordleSolver::CalculateMatches(const std::string &Correct, const std::string &Guess)
 {
 	CWordList::tMatchTypeVector Matches(Correct.length());
-	std::string SecondGuess(Guess);
+	std::string GuessCopy(Guess);
+	std::string CorrectCopy(Correct);
 
 	//First, go through looking for letters in correct place
 
 	for (std::string::size_type count = 0; count < Correct.length(); count++)
 	{
-		if (Guess[count] == Correct[count])
+		if (GuessCopy[count] == CorrectCopy[count])
 		{
 			Matches[count] = CWordList::tMatchType::eRightLocation;
-			SecondGuess[count] = ' ';
+			GuessCopy[count] = ' ';
+			CorrectCopy[count] = ' ';
 		}
 	}
 
 	for (std::string::size_type count = 0; count < Correct.length(); count++)
 	{
-		if (std::string::npos != Correct.find(SecondGuess[count]))
+		if (GuessCopy[count] != ' ')
 		{
-			Matches[count] = CWordList::tMatchType::eWrongLocation;
+			auto FoundPos = CorrectCopy.find(GuessCopy[count]);
+			if (std::string::npos != FoundPos)
+			{
+				Matches[count] = CWordList::tMatchType::eWrongLocation;
+				CorrectCopy[FoundPos] = ' ';
+				GuessCopy[count] = ' ';
+			}
 		}
 	}
 
