@@ -5,6 +5,9 @@ configure_file(manifest.json.in ${CMAKE_CURRENT_SOURCE_DIR}/manifest.json)
 install(FILES
 		background-script.js
 		content-script.js
+		site-integration.js
+		site-integration-wordle.js
+		site-integration-septle.js
 		manifest.json
 		wordle_logo_16x16.png
 		wordle_logo_32x32.png

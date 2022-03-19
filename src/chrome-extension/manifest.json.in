@@ -22,6 +22,9 @@
 				"https://septle.com/"
 			],
 			"js": [
+				"site-integration.js",
+				"site-integration-wordle.js",
+				"site-integration-septle.js",
 				"content-script.js",
 				"wordle-solver-lib.js"
 			],
