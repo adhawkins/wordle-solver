@@ -29,7 +29,12 @@ class CWordleSolver {
 				break;
 
 			case 6:
-				dictionary = "word-lists/wordle2-words.txt";
+				if (window.septle) {
+					dictionary = "word-lists/septle-words.txt";
+				} else {
+					dictionary = "word-lists/wordle2-words.txt";
+				}
+
 				break;
 
 			case 7:
