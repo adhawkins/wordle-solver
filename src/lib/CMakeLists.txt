@@ -7,12 +7,6 @@ if(EMSCRIPTEN)
 
 	set_target_properties(wordle-solver PROPERTIES LINK_FLAGS "-s NO_DYNAMIC_EXECUTION=1")
 
-	add_custom_target(copy-words
-		COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/word-lists ${CMAKE_CURRENT_BINARY_DIR}/word-lists
-		)
-
-	add_dependencies(wordle-solver copy-words)
-
 	add_executable(wordle-solver-lib null.cc)
 
 	target_link_libraries(wordle-solver-lib PUBLIC
@@ -20,7 +14,10 @@ if(EMSCRIPTEN)
 		wordle-solver
 		-Wl,--no-whole-archive)
 
-	set_target_properties(wordle-solver-lib PROPERTIES LINK_FLAGS "--bind --preload-file ${CMAKE_CURRENT_BINARY_DIR}/word-lists@/word-lists -s NO_DYNAMIC_EXECUTION=1")
+	set_target_properties(wordle-solver-lib PROPERTIES LINK_FLAGS "--bind --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/word-lists@/word-lists -s NO_DYNAMIC_EXECUTION=1")
+
+	FILE(GLOB word-lists ${CMAKE_CURRENT_SOURCE_DIR}/word-lists/*)
+	set_target_properties(wordle-solver-lib PROPERTIES LINK_DEPENDS "${word-lists}")
 
 	install(FILES
 			${CMAKE_CURRENT_BINARY_DIR}/wordle-solver-lib.js
