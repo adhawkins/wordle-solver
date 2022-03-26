@@ -3,10 +3,8 @@ cmake_minimum_required(VERSION 3.0.0)
 project(wordle-solver VERSION 0.1.0)
 
 find_program(PANDOC_EXE pandoc)
-message(STATUS "Pandoc: '${PANDOC_EXE}'")
 
 if(PANDOC_EXE)
-	message(STATUS "Pandoc found")
 	add_custom_command(OUTPUT README.html
 		COMMAND ${PANDOC_EXE} --standalone ${CMAKE_CURRENT_SOURCE_DIR}/README.md -o ${CMAKE_CURRENT_BINARY_DIR}/README.html --metadata title="Wordle Solver"
 		MAIN_DEPENDENCY README.md
