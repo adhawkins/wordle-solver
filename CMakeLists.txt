@@ -6,7 +6,7 @@ find_program(PANDOC_EXE pandoc)
 
 if(PANDOC_EXE)
 	add_custom_command(OUTPUT README.html
-		COMMAND ${PANDOC_EXE} --standalone ${CMAKE_CURRENT_SOURCE_DIR}/README.md -o ${CMAKE_CURRENT_BINARY_DIR}/README.html --metadata title="Wordle Solver"
+		COMMAND ${PANDOC_EXE} --standalone ${CMAKE_CURRENT_SOURCE_DIR}/README.md -o ${CMAKE_CURRENT_BINARY_DIR}/README.html --metadata title="Gently Wordle Solver"
 		MAIN_DEPENDENCY README.md
 	)
 	add_custom_target(README_HTML ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/README.html)

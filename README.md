@@ -1,4 +1,4 @@
-# Wordle Solver
+# Gently Wordle Solver
 
 ## Introduction
 

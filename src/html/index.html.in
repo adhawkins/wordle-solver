@@ -3,7 +3,7 @@
 		<link rel="stylesheet" href="index.css">
 		<script src="wordle-letter.js"></script>
 		<script src="wordle-guess.js"></script>
-		<title>Wordle Solver</title>
+		<title>Gently Wordle Solver</title>
 
 		<script>
 			let Solver = null;
@@ -121,7 +121,7 @@
 	<body>
 		<div class="loading spinner">Loading dictionary...please wait</div>
 		<div class="game">
-			<h1>Wordle Solver v@wordle-solver_VERSION@</h1>
+			<h1>Gently Wordle Solver v@wordle-solver_VERSION@</h1>
 			<div class="board-container">
 				<div class="board">
 				</div>
