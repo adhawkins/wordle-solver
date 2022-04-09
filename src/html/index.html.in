@@ -82,7 +82,7 @@
 							break;
 
 						case '6':
-							dictionary = "word-lists/wordle2-words.txt";
+							dictionary = "word-lists/wordhurdle-words.txt";
 							break;
 
 						case '7':

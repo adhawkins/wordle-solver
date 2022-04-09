@@ -32,7 +32,7 @@ class CWordleSolver {
 				if (window.septle) {
 					dictionary = "word-lists/septle-words.txt";
 				} else {
-					dictionary = "word-lists/wordle2-words.txt";
+					dictionary = "word-lists/wordhurdle-words.txt";
 				}
 
 				break;
