@@ -58,6 +58,7 @@ void CWordList::LoadWords(const std::string &FileName, int Length)
 		std::string Line;
 		while (std::getline(File, Line))
 		{
+			std::transform(Line.begin(), Line.end(), Line.begin(), ::tolower);
 			Line.erase(std::remove_if(Line.begin(),
 																Line.end(),
 																[](unsigned char x)
