@@ -236,21 +236,6 @@ std::string CWordList::GetGuess(const std::vector<std::string> &Guesses) const
 {
 	if (!m_Words.empty())
 	{
-		if (Guesses.empty())
-		{
-			switch (m_Words[0].m_Word.length())
-			{
-			case 5:
-				return "arise";
-
-			case 9:
-				return "beautiful";
-
-			default:
-				break;
-			}
-		}
-
 		for (const auto &Word : m_Words)
 		{
 			if (Guesses.end() == std::find(Guesses.begin(), Guesses.end(), Word.m_Word))
