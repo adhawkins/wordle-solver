@@ -8,6 +8,16 @@ It works with [WordHurdle](https://www.wordhurdle.in/) and [Septle](https://sept
 
 It comes with word lists to be used with Wordle, WordHurdle and Septle, as well as a 'generic' word list for use with other puzzles.
 
+## Online Version
+
+The web version of this project is hosted on GitHub. It can be accessed using the following links:
+
+[5 letter words](https://adhawkins.github.io/wordle-solver/?letters=5)
+
+[6 letter words](https://adhawkins.github.io/wordle-solver/?letters=6)
+
+[7 letter words](https://adhawkins.github.io/wordle-solver/?letters=7)
+
 ## Requirements
 
 The project is built using [cmake](https://cmake.org/).
