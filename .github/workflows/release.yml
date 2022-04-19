@@ -24,9 +24,6 @@ jobs:
       working-directory: ${{github.workspace}}/web-extract
       run: unzip ../web-build/*web*.zip
 
-    - name: List files
-      run: ls -lR ${{github.workspace}}/web-extract/
-
     - uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
