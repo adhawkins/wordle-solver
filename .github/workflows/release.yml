@@ -17,6 +17,21 @@ jobs:
     steps:
     - uses: actions/download-artifact@v2
 
+    - name: Make directory for extraction
+      run: mkdir ${{github.workspace}}/web-extract
+
+    - name: Extract web version
+      working-directory: ${{github.workspace}}/web-extract
+      run: unzip ../web-build/*web*.zip
+
+    - name: List files
+      run: ls -lR ${{github.workspace}}/web-extract/
+
+    - uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ${{github.workspace}}/web-extract/web
+
     - name: Get the version
       id: get_version
       run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
@@ -35,3 +50,4 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/')
       with:
         files: output/*
+
