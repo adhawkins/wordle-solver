@@ -1,0 +1,131 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="index.css">
+		<script src="wordle-letter.js"></script>
+		<script src="wordle-guess.js"></script>
+		<title>Gently Wordle Solver</title>
+
+		<script>
+			let Solver = null;
+			let previousMark = '';
+			let words = null;
+
+			var Module = {
+				addGuess: function(guess, previousMark, guessNum) {
+					const boards = document.getElementsByClassName('board');
+					if (boards) {
+						const board = boards[0];
+						if (guessNum) {
+							const elements = board.querySelectorAll(`wordle-guess[guessnum='${guessNum}']`);
+							if (elements) {
+								elements[0].setAttribute('guess', guess);
+							}
+						} else {
+							const newGuess = document.createElement('wordle-guess');
+							newGuess.setAttribute('length', guess.length);
+							newGuess.setAttribute('guess', guess);
+							newGuess.setAttribute('guessNum', Solver.GuessNum());
+							newGuess.setAttribute('initial-mark', previousMark);
+							newGuess.setAttribute('num-words', Solver.NumWords());
+
+							newGuess.addEventListener("GuessMarked", (event) => {
+								previousMark = event.target.getAttribute('mark');
+								if (previousMark == '2'.repeat(previousMark.length)) {
+									alert(`Got it on guess ${Solver.GuessNum()}`);
+									this.startGame();
+								} else {
+									const parsedMatches = Module.CWordleSolver.ParseMatches(previousMark);
+									const nextGuess = Solver.Result(parsedMatches);
+									this.addGuess(nextGuess, previousMark.replace(/[01]/g, ' '));
+								}
+							});
+
+							newGuess.addEventListener("BadWord", (event) => {
+								const nextGuess = Solver.InvalidWord();
+								this.addGuess(nextGuess, previousMark.replace(/[01]/g, ' '), Solver.GuessNum());
+							});
+
+							board.append(newGuess);
+						}
+					}
+				},
+
+				startGame: function () {
+					const boards = document.getElementsByClassName('board');
+					if (boards) {
+						const board = boards[0];
+						board.textContent = "";
+					}
+
+					if (Solver) {
+						Solver.delete();
+					}
+
+					Solver = new Module.CWordleSolver(words, "");
+
+					const Guess = Solver.InitialGuess();
+					previousMark = ' '.repeat(Guess.length);
+					this.addGuess(Guess, previousMark);
+				},
+
+				onRuntimeInitialized: function () {
+					const urlParams = new URLSearchParams(window.location.search);
+					let numLetters = urlParams.get('letters');
+					let dictionary = ""
+					if (!numLetters) {
+						numLetters = '5';
+					}
+
+					switch (numLetters) {
+						case '5':
+							dictionary = "word-lists/wordle-words.txt";
+							break;
+
+						case '6':
+							dictionary = "word-lists/wordhurdle-words.txt";
+							break;
+
+						case '7':
+							dictionary = "word-lists/septle-words.txt";
+							break;
+
+						default:
+							dictionary = "word-lists/words_alpha.txt";
+							break;
+					}
+
+					let worker = new Worker('words-loader.js');
+					worker.postMessage({
+						dictionary: dictionary,
+						numLetters: Number(numLetters)
+					});
+
+					worker.onmessage = function(e) {
+						words = new Module.StringVector();
+						e.data.forEach(element => {
+							words.push_back(element);
+						});
+
+						const loading = document.getElementsByClassName('loading');
+						if (loading && loading[0]) {
+							loading[0].style.display = 'none';
+						}
+						Module.startGame();
+					}
+				},
+			};
+		</script>
+		<script src="wordle-solver-lib.js"></script>
+		</head>
+
+	<body>
+		<div class="loading spinner">Loading dictionary...please wait</div>
+		<div class="game">
+			<h1>Gently Wordle Solver v0.1.0</h1>
+			<div class="board-container">
+				<div class="board">
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
